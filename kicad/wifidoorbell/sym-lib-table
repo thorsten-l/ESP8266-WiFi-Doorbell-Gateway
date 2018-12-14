@@ -1,0 +1,3 @@
+(sym_lib_table
+  (lib (name WifiDoorBell-D1-mini-rescue)(type Legacy)(uri ${KIPRJMOD}/WifiDoorBell-D1-mini-rescue.lib)(options "")(descr ""))
+)
