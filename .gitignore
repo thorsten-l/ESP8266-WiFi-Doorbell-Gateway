@@ -24,9 +24,18 @@
 *.lai
 *.la
 *.a
-*.lib
 
 # Executables
 *.exe
 *.out
 *.app
+
+# macOS
+.DS_Store
+
+# KiCad
+*~
+*.bak
+*-bak
+_autosave*
+rescue-backup/
