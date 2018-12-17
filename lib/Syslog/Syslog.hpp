@@ -10,6 +10,7 @@ private:
 public:
   void logInfo(const char *message);
   void logInfo(const char *message, int value);
+  void logInfo(const char *message, const char * value);
 };
 
 extern Syslog syslog;

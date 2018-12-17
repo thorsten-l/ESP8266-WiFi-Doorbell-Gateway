@@ -82,3 +82,11 @@ void Syslog::logInfo(const char *message, int value)
   delay(END_PACKET_DELAY);
 */
 }
+
+void Syslog::logInfo(const char *message, const char *value)
+{
+  char buffer[256];
+  sprintf(buffer, "<134>1 - %s %s - - - %s %s", appcfgRD.ota_hostname,
+          appcfgRD.syslog_app_name, message, value);
+  send(buffer);
+}

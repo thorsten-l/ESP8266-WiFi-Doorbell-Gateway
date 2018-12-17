@@ -1,5 +1,6 @@
 #include <Arduino.h>
 #include <App.hpp>
+#include <ESP8266WiFi.h>
 #include <WifiHandler.hpp>
 #include <OtaHandler.hpp>
 #include <Syslog.hpp>
@@ -112,7 +113,10 @@ void loop()
     if ( !wifiAlreadyConnected )
     {
       syslog.logInfo("WiFi connected");
-      syslog.logInfo(wifiHandler.getLocalIP());
+      syslog.logInfo("  ip addr:", WiFi.localIP().toString().c_str());
+      syslog.logInfo("  netmask:", WiFi.subnetMask().toString().c_str());
+      syslog.logInfo("  gateway:", WiFi.gatewayIP().toString().c_str());
+      syslog.logInfo("  dns server:", WiFi.dnsIP().toString().c_str());
       wifiAlreadyConnected = true;
     }
   }
