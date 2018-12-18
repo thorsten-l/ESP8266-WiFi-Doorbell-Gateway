@@ -1,6 +1,8 @@
 #ifndef __WIFI_HANDLER_H__
 #define __WIFI_HANDLER_H__
 
+#include <Arduino.h>
+
 class WifiHandler
 {
 private:

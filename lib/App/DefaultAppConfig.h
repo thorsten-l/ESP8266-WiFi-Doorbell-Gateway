@@ -1,11 +1,17 @@
 #ifndef __DEFAULT_APP_CONFIG_H__
 #define __DEFAULT_APP_CONFIG_H__
 
-#include <ESP8266WiFi.h>
+#include "App.hpp"
 
 #define DEFAULT_WIFI_SSID "DoorbellGW-%06x"
 #define DEFAULT_WIFI_PASSWORD "12345678"
 #define DEFAULT_WIFI_MODE WIFI_AP
+
+#define DEFAULT_NET_MODE NET_MODE_DHCP
+#define DEFAULT_NET_HOST "192.168.192.1"
+#define DEFAULT_NET_MASK "255.255.255.0"
+#define DEFAULT_NET_GATEWAY "192.168.192.1"
+#define DEFAULT_NET_DNS "192.168.192.1"
 
 #define DEFAULT_OTA_HOSTNAME "doorbell-gateway-1"
 #define DEFAULT_OTA_PASSWORD "otapass"

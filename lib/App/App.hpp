@@ -2,12 +2,13 @@
 #define __APP_H__
 
 #include <Arduino.h>
+#include <ESP8266WiFi.h>
 
 #define LOG0(format) Serial.printf("(%ld) " format, millis())
 #define LOG1(format, x) Serial.printf("(%ld) " format, millis(), x)
 
 #define APP_NAME "WiFi Doorbell Gateway"
-#define APP_VERSION "0.2.15"
+#define APP_VERSION "0.3.1"
 #define APP_AUTHOR "Dr. Thorsten Ludewig <t.ludewig@gmail.com>"
 #define APP_CONFIG_FILE "/config.bin"
 
@@ -15,11 +16,20 @@
 #define RING_BUTTON D1
 #define SETUP_BUTTON D7
 
+#define NET_MODE_STATIC 1
+#define NET_MODE_DHCP 2
+
 typedef struct appconfig
 {
   char wifi_ssid[64];
   char wifi_password[64];
   int wifi_mode;
+
+  int net_mode;
+  char net_host[64];
+  char net_mask[64];
+  char net_gateway[64];
+  char net_dns[64];
 
   char ota_hostname[64];
   char ota_password[64];

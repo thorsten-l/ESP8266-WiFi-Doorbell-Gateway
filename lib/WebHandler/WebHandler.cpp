@@ -114,6 +114,19 @@ void handleSetupPage( AsyncWebServerRequest *request )
   prTextGroup( response, id++, "SSID", "wifi_ssid", appcfgRD.wifi_ssid );
   prTextGroup( response, id++, "Password", "wifi_password", appcfgRD.wifi_password );
 
+  // Network
+  prLegend( response, "Network" );
+
+  prSelectStart( response, id++, "Mode", "net_mode" );
+  prOption( response, WIFI_AP, "DHCP", appcfgRD.net_mode == NET_MODE_DHCP );
+  prOption( response, WIFI_STA, "Static", appcfgRD.net_mode == NET_MODE_STATIC );
+  prSelectEnd( response );
+
+  prTextGroup( response, id++, "Host Address", "net_host", appcfgRD.net_host );
+  prTextGroup( response, id++, "Gateway", "net_gateway", appcfgRD.net_gateway );
+  prTextGroup( response, id++, "Netmask", "net_mask", appcfgRD.net_mask );
+  prTextGroup( response, id++, "DNS Server", "net_dns", appcfgRD.net_dns );
+
   // OTA (Over The Air - firmware update)
   prLegend( response, "Over The Air - firmware update (OTA)");
   prTextGroup( response, id++, "Hostname", "ota_hostname", appcfgRD.ota_hostname );
@@ -150,7 +163,7 @@ void handleSetupPage( AsyncWebServerRequest *request )
   prLegend( response, "Syslog");
   prCheckBoxGroup( response, id++, "Enabled", "syslog_enabled", appcfgRD.syslog_enabled );
   prTextGroup( response, id++, "Host", "syslog_host", appcfgRD.syslog_host );
-  prTextGroup( response, id++, "Port", "syslog_port", appcfgRD.syslog_port );
+  prTextGroup( response, id++, "Port (TCP)", "syslog_port", appcfgRD.syslog_port );
   prTextGroup( response, id++, "App Name", "syslog_app_name", appcfgRD.syslog_app_name );
 
   response->println("<p><input class='pure-button pure-button-primary' type='submit' value='Save Configuration'></p>");
@@ -238,6 +251,13 @@ void handleSavePage( AsyncWebServerRequest *request )
   paramChars( request, appcfgWR.wifi_ssid, "wifi_ssid", DEFAULT_WIFI_SSID );
   paramChars( request, appcfgWR.wifi_password, "wifi_password", DEFAULT_WIFI_PASSWORD );
 
+  // Network
+  appcfgWR.net_mode = paramInt( request, "net_mode", DEFAULT_NET_MODE );
+  paramChars( request, appcfgWR.net_host, "net_host", DEFAULT_NET_HOST );
+  paramChars( request, appcfgWR.net_gateway, "net_gateway", DEFAULT_NET_GATEWAY );
+  paramChars( request, appcfgWR.net_mask, "net_mask", DEFAULT_NET_MASK );
+  paramChars( request, appcfgWR.net_dns, "net_dns", DEFAULT_NET_DNS );
+ 
   // OTA
   paramChars( request, appcfgWR.ota_hostname, "ota_hostname", DEFAULT_OTA_HOSTNAME );
   paramChars( request, appcfgWR.ota_password, "ota_password", DEFAULT_OTA_PASSWORD );

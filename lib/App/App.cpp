@@ -14,6 +14,12 @@ App::App()
   strncpy(appcfgRD.wifi_password, DEFAULT_WIFI_PASSWORD, 63);
   appcfgRD.wifi_mode = DEFAULT_WIFI_MODE;
 
+  appcfgRD.net_mode = DEFAULT_NET_MODE;
+  strncpy(appcfgRD.net_host, DEFAULT_NET_HOST, 63);
+  strncpy(appcfgRD.net_mask, DEFAULT_NET_MASK, 63);
+  strncpy(appcfgRD.net_gateway, DEFAULT_NET_GATEWAY, 63);
+  strncpy(appcfgRD.net_dns, DEFAULT_NET_DNS, 63);
+
   strncpy(appcfgRD.ota_hostname, DEFAULT_OTA_HOSTNAME, 63);
   strncpy(appcfgRD.ota_password, DEFAULT_OTA_PASSWORD, 63);
 
@@ -84,7 +90,7 @@ void App::setup()
   if (digitalRead(SETUP_BUTTON) == false)
   {
     Serial.println();
-    LOG0("*** RESET appcfguration ***\n");
+    LOG0("*** RESET app configuration ***\n");
     Serial.println();
 
     for (int i = 0; i < 15; i++)
@@ -203,6 +209,12 @@ void App::printConfig()
   Serial.printf("    SSID: %s\n", appcfgRD.wifi_ssid);
   Serial.printf("    Password: %s\n", appcfgRD.wifi_password);
   Serial.printf("    Mode: %s\n", (appcfgRD.wifi_mode == 1) ? "Station" : "Access Point");
+  Serial.println("\n  Network:");
+  Serial.printf("    Mode: %s\n", ( appcfgRD.net_mode == NET_MODE_DHCP ) ? "DHCP" : "Static");
+  Serial.printf("    host address: %s\n", appcfgRD.net_host);
+  Serial.printf("    gateway: %s\n", appcfgRD.net_gateway);
+  Serial.printf("    netmask: %s\n", appcfgRD.net_mask);
+  Serial.printf("    dns server: %s\n", appcfgRD.net_dns);
   Serial.println("\n  OTA:");
   Serial.printf("    Hostname: %s\n", appcfgRD.ota_hostname);
   Serial.printf("    Password: %s\n", appcfgRD.ota_password);
