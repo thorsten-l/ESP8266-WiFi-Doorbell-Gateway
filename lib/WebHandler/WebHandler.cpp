@@ -381,6 +381,7 @@ void WebHandler::setup()
     prLegend( response, "Services");
     response->printf( "<p>OpenHAB Callback Enabled: %s</p>", (appcfgRD.ohab_enabled) ? "true" : "false" );
     response->printf( "<p>MQTT Enabled: %s</p>", (appcfgRD.mqtt_enabled) ? "true" : "false" );
+    response->printf( "<p>Syslog Enabled: %s</p>", (appcfgRD.syslog_enabled) ? "true" : "false" );
 
     response->print("</form>");
     response->print( TEMPLATE_FOOTER );
