@@ -18,8 +18,8 @@ MqttHandler::MqttHandler()
 
 bool MqttHandler::reconnect()
 {
-  if (( appcfgRD.mqtt_useauth && client.connect(appcfgRD.mqtt_clientid, appcfgRD.mqtt_user, appcfgRD.mqtt_password ))
-      || ( !appcfgRD.mqtt_useauth && client.connect(appcfgRD.mqtt_clientid)))
+  if (( appcfg.mqtt_useauth && client.connect(appcfg.mqtt_clientid, appcfg.mqtt_user, appcfg.mqtt_password ))
+      || ( !appcfg.mqtt_useauth && client.connect(appcfg.mqtt_clientid)))
   {
     LOG0( "mqtt broker connected\n" );
   }
@@ -33,13 +33,13 @@ bool MqttHandler::reconnect()
 void MqttHandler::setup()
 {
   LOG0("MQTT Setup...\n");
-  client.setServer( appcfgRD.mqtt_host, appcfgRD.mqtt_port );
+  client.setServer( appcfg.mqtt_host, appcfg.mqtt_port );
   initialized = true;
 }
 
 void MqttHandler::handle()
 {
-  if ( appcfgRD.mqtt_enabled && wifiHandler.isReady())
+  if ( appcfg.mqtt_enabled && wifiHandler.isReady())
   {
     if ( initialized == false )
     {
@@ -69,8 +69,8 @@ void MqttHandler::handle()
 
 void MqttHandler::sendValue( const char* value )
 {
-  if( appcfgRD.mqtt_enabled && wifiHandler.isReady() && client.connected())
+  if( appcfg.mqtt_enabled && wifiHandler.isReady() && client.connected())
   {
-    client.publish( appcfgRD.mqtt_outtopic, value );
+    client.publish( appcfg.mqtt_outtopic, value );
   }
 }

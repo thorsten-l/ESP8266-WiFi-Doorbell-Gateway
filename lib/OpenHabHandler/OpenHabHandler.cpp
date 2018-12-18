@@ -13,15 +13,15 @@ void OpenHabHandler::sendValueV1(const char *value)
   HTTPClient http;
   char urlBuffer[256];
 
-  sprintf(urlBuffer, "http://%s:%d/CMD?%s=%s", appcfgRD.ohab_host,
-          appcfgRD.ohab_port, appcfgRD.ohab_itemname, value);
+  sprintf(urlBuffer, "http://%s:%d/CMD?%s=%s", appcfg.ohab_host,
+          appcfg.ohab_port, appcfg.ohab_itemname, value);
 
   LOG1("URL=%s\n", urlBuffer);
 
   http.begin(urlBuffer);
-  if (appcfgRD.ohab_useauth)
+  if (appcfg.ohab_useauth)
   {
-    http.setAuthorization(appcfgRD.ohab_user, appcfgRD.ohab_password);
+    http.setAuthorization(appcfg.ohab_user, appcfg.ohab_password);
   }
 
   int httpCode = http.GET();
@@ -50,8 +50,8 @@ void OpenHabHandler::sendValueV2(const char *value)
   HTTPClient http;
   char urlBuffer[256];
 
-  sprintf(urlBuffer, "http://%s:%d/rest/items/%s", appcfgRD.ohab_host,
-          appcfgRD.ohab_port, appcfgRD.ohab_itemname);
+  sprintf(urlBuffer, "http://%s:%d/rest/items/%s", appcfg.ohab_host,
+          appcfg.ohab_port, appcfg.ohab_itemname);
 
   LOG1("URL=%s\n", urlBuffer);
 
@@ -60,9 +60,9 @@ void OpenHabHandler::sendValueV2(const char *value)
   http.addHeader("Accept", "application/json");
   http.addHeader("Content-Type", "text/plain");
 
-  if (appcfgRD.ohab_useauth)
+  if (appcfg.ohab_useauth)
   {
-    http.setAuthorization(appcfgRD.ohab_user, appcfgRD.ohab_password);
+    http.setAuthorization(appcfg.ohab_user, appcfg.ohab_password);
   }
 
   int httpCode = http.POST(value);
@@ -86,9 +86,9 @@ void OpenHabHandler::sendValueV2(const char *value)
 
 void OpenHabHandler::sendValue(const char *value)
 {
-  if (appcfgRD.ohab_enabled && wifiHandler.isReady())
+  if (appcfg.ohab_enabled && wifiHandler.isReady())
   {
-    if (appcfgRD.ohab_version == 1)
+    if (appcfg.ohab_version == 1)
     {
       sendValueV1(value);
     }

@@ -14,7 +14,7 @@ static void wifiOff()
   WiFi.persistent(false);
   WiFi.mode(WIFI_OFF);
   WiFi.setOutputPower(0.0f);
-  WiFi.hostname(appcfgRD.ota_hostname);
+  WiFi.hostname(appcfg.ota_hostname);
 }
 
 static void wifiInitStationMode()
@@ -24,17 +24,17 @@ static void wifiInitStationMode()
   delay( 500 );
 
   LOG0("Starting Wifi in Station Mode");
-  if (appcfgRD.net_mode == NET_MODE_STATIC)
+  if (appcfg.net_mode == NET_MODE_STATIC)
   {
     LOG0("use static ip address");
     IPAddress host;
-    host.fromString(appcfgRD.net_host);
+    host.fromString(appcfg.net_host);
     IPAddress gateway;
-    gateway.fromString(appcfgRD.net_gateway);
+    gateway.fromString(appcfg.net_gateway);
     IPAddress mask;
-    mask.fromString(appcfgRD.net_mask);
+    mask.fromString(appcfg.net_mask);
     IPAddress dns;
-    dns.fromString(appcfgRD.net_dns);
+    dns.fromString(appcfg.net_dns);
     WiFi.config(host, gateway, mask);
     WiFi.dnsIP(dns);
   }
@@ -43,8 +43,8 @@ static void wifiInitStationMode()
     LOG0("use dhcp server");
   }
   WiFi.begin();
-  WiFi.hostname(appcfgRD.ota_hostname);
-  WiFi.begin(appcfgRD.wifi_ssid, appcfgRD.wifi_password);
+  WiFi.hostname(appcfg.ota_hostname);
+  WiFi.begin(appcfg.wifi_ssid, appcfg.wifi_password);
   WiFi.setAutoConnect(true);
   WiFi.setAutoReconnect(true);
 }
@@ -70,21 +70,21 @@ void WifiHandler::setup()
     LOG0("Starting Wifi Access Point Mode\n");
     char buffer[64];
     sprintf(buffer, DEFAULT_WIFI_SSID, ESP.getChipId());
-    strcpy(appcfgRD.wifi_ssid, buffer);
+    strcpy(appcfg.wifi_ssid, buffer);
 
     WiFi.mode(WIFI_AP);
 
     IPAddress host;
-    host.fromString(appcfgRD.net_host);
+    host.fromString(appcfg.net_host);
     IPAddress gateway;
-    gateway.fromString(appcfgRD.net_gateway);
+    gateway.fromString(appcfg.net_gateway);
     IPAddress mask;
-    mask.fromString(appcfgRD.net_mask);
+    mask.fromString(appcfg.net_mask);
     IPAddress dns;
-    dns.fromString(appcfgRD.net_dns);
+    dns.fromString(appcfg.net_dns);
 
     WiFi.softAPConfig(host, gateway, mask);
-    WiFi.softAP(appcfgRD.wifi_ssid, appcfgRD.wifi_password);
+    WiFi.softAP(appcfg.wifi_ssid, appcfg.wifi_password);
     Serial.print("AP IP address: ");
     Serial.println(WiFi.softAPIP());
     digitalWrite(WIFI_LED, LOW);
@@ -120,29 +120,29 @@ const bool WifiHandler::handle(time_t timestamp)
       if (status == WL_CONNECTED)
       {
         Serial.println("\n");
-        Serial.printf("WiFi connected to %s\n", appcfgRD.wifi_ssid);
+        Serial.printf("WiFi connected to %s\n", appcfg.wifi_ssid);
 
-        if (appcfgRD.net_mode == NET_MODE_DHCP)
+        if (appcfg.net_mode == NET_MODE_DHCP)
         {
           Serial.println( "copy wifi config from dhcp response" );
-          strncpy(appcfgRD.net_host, WiFi.localIP().toString().c_str(), 63);
-          strncpy(appcfgRD.net_gateway, WiFi.gatewayIP().toString().c_str(),
+          strncpy(appcfg.net_host, WiFi.localIP().toString().c_str(), 63);
+          strncpy(appcfg.net_gateway, WiFi.gatewayIP().toString().c_str(),
                   63);
-          strncpy(appcfgRD.net_mask, WiFi.subnetMask().toString().c_str(), 63);
-          strncpy(appcfgRD.net_dns, WiFi.dnsIP().toString().c_str(), 63);
+          strncpy(appcfg.net_mask, WiFi.subnetMask().toString().c_str(), 63);
+          strncpy(appcfg.net_dns, WiFi.dnsIP().toString().c_str(), 63);
         }
         else
         {
           Serial.println( "setting dns server" );
           IPAddress dns;
-          dns.fromString(appcfgRD.net_dns);
+          dns.fromString(appcfg.net_dns);
           WiFi.dnsIP(dns);
         }
 
-        Serial.printf(" - host ip address: %s\n", appcfgRD.net_host);
-        Serial.printf(" - gateway: %s\n", appcfgRD.net_gateway);
-        Serial.printf(" - mask: %s\n", appcfgRD.net_mask);
-        Serial.printf(" - dns server: %s\n", appcfgRD.net_dns);
+        Serial.printf(" - host ip address: %s\n", appcfg.net_host);
+        Serial.printf(" - gateway: %s\n", appcfg.net_gateway);
+        Serial.printf(" - mask: %s\n", appcfg.net_mask);
+        Serial.printf(" - dns server: %s\n", appcfg.net_dns);
 
         Serial.println();
         digitalWrite(WIFI_LED, LOW);
@@ -160,7 +160,7 @@ const bool WifiHandler::handle(time_t timestamp)
 
 const bool WifiHandler::isInStationMode()
 {
-  return (appcfgRD.wifi_mode == WIFI_STA);
+  return (appcfg.wifi_mode == WIFI_STA);
 }
 
 const bool WifiHandler::isConnected() { return connected; }

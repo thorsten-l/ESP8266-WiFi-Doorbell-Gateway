@@ -86,7 +86,7 @@ void handleSetupPage( AsyncWebServerRequest *request )
 {
   int id = 0;
 
-  if(!request->authenticate("admin", appcfgRD.admin_password))
+  if(!request->authenticate("admin", appcfg.admin_password))
   {
     return request->requestAuthentication();
   }
@@ -98,7 +98,7 @@ void handleSetupPage( AsyncWebServerRequest *request )
   // Setup
 
   prLegend( response, "Setup 'admin' user" );
-  prTextGroup( response, id++, "Password", "admin_password", appcfgRD.admin_password );
+  prTextGroup( response, id++, "Password", "admin_password", appcfg.admin_password );
 
   // WiFi
   prLegend( response, "WiFi Network Scan" );
@@ -107,64 +107,64 @@ void handleSetupPage( AsyncWebServerRequest *request )
   prLegend( response, "WiFi" );
 
   prSelectStart( response, id++, "Mode", "wifi_mode" );
-  prOption( response, WIFI_AP, "Access Point", appcfgRD.wifi_mode == WIFI_AP );
-  prOption( response, WIFI_STA, "Station", appcfgRD.wifi_mode == WIFI_STA );
+  prOption( response, WIFI_AP, "Access Point", appcfg.wifi_mode == WIFI_AP );
+  prOption( response, WIFI_STA, "Station", appcfg.wifi_mode == WIFI_STA );
   prSelectEnd( response );
 
-  prTextGroup( response, id++, "SSID", "wifi_ssid", appcfgRD.wifi_ssid );
-  prTextGroup( response, id++, "Password", "wifi_password", appcfgRD.wifi_password );
+  prTextGroup( response, id++, "SSID", "wifi_ssid", appcfg.wifi_ssid );
+  prTextGroup( response, id++, "Password", "wifi_password", appcfg.wifi_password );
 
   // Network
   prLegend( response, "Network" );
 
   prSelectStart( response, id++, "Mode", "net_mode" );
-  prOption( response, WIFI_AP, "DHCP", appcfgRD.net_mode == NET_MODE_DHCP );
-  prOption( response, WIFI_STA, "Static", appcfgRD.net_mode == NET_MODE_STATIC );
+  prOption( response, WIFI_AP, "DHCP", appcfg.net_mode == NET_MODE_DHCP );
+  prOption( response, WIFI_STA, "Static", appcfg.net_mode == NET_MODE_STATIC );
   prSelectEnd( response );
 
-  prTextGroup( response, id++, "Host Address", "net_host", appcfgRD.net_host );
-  prTextGroup( response, id++, "Gateway", "net_gateway", appcfgRD.net_gateway );
-  prTextGroup( response, id++, "Netmask", "net_mask", appcfgRD.net_mask );
-  prTextGroup( response, id++, "DNS Server", "net_dns", appcfgRD.net_dns );
+  prTextGroup( response, id++, "Host Address", "net_host", appcfg.net_host );
+  prTextGroup( response, id++, "Gateway", "net_gateway", appcfg.net_gateway );
+  prTextGroup( response, id++, "Netmask", "net_mask", appcfg.net_mask );
+  prTextGroup( response, id++, "DNS Server", "net_dns", appcfg.net_dns );
 
   // OTA (Over The Air - firmware update)
   prLegend( response, "Over The Air - firmware update (OTA)");
-  prTextGroup( response, id++, "Hostname", "ota_hostname", appcfgRD.ota_hostname );
-  prTextGroup( response, id++, "Password", "ota_password", appcfgRD.ota_password );
+  prTextGroup( response, id++, "Hostname", "ota_hostname", appcfg.ota_hostname );
+  prTextGroup( response, id++, "Password", "ota_password", appcfg.ota_password );
 
   // OpenHAB
   prLegend( response, "OpenHAB");
-  prCheckBoxGroup( response, id++, "Callback Enabled", "ohab_enabled", appcfgRD.ohab_enabled );
+  prCheckBoxGroup( response, id++, "Callback Enabled", "ohab_enabled", appcfg.ohab_enabled );
 
   prSelectStart( response, id++, "OpenHAB Version", "ohab_version" );
-  prOption( response, 1, "1.8", appcfgRD.ohab_version == 1 );
-  prOption( response, 2, "&gt;=2.0", appcfgRD.ohab_version == 2 );
+  prOption( response, 1, "1.8", appcfg.ohab_version == 1 );
+  prOption( response, 2, "&gt;=2.0", appcfg.ohab_version == 2 );
   prSelectEnd( response );
 
-  prTextGroup( response, id++, "Item Name", "ohab_itemname", appcfgRD.ohab_itemname );
-  prTextGroup( response, id++, "Host", "ohab_host", appcfgRD.ohab_host );
-  prTextGroup( response, id++, "Port", "ohab_port", appcfgRD.ohab_port );
-  prCheckBoxGroup( response, id++, "Use Authentication", "ohab_useauth", appcfgRD.ohab_useauth );
-  prTextGroup( response, id++, "User", "ohab_user", appcfgRD.ohab_user );
-  prTextGroup( response, id++, "Password", "ohab_password", appcfgRD.ohab_password );
+  prTextGroup( response, id++, "Item Name", "ohab_itemname", appcfg.ohab_itemname );
+  prTextGroup( response, id++, "Host", "ohab_host", appcfg.ohab_host );
+  prTextGroup( response, id++, "Port", "ohab_port", appcfg.ohab_port );
+  prCheckBoxGroup( response, id++, "Use Authentication", "ohab_useauth", appcfg.ohab_useauth );
+  prTextGroup( response, id++, "User", "ohab_user", appcfg.ohab_user );
+  prTextGroup( response, id++, "Password", "ohab_password", appcfg.ohab_password );
 
   // MQTT
   prLegend( response, "MQTT");
-  prCheckBoxGroup( response, id++, "Enabled", "mqtt_enabled", appcfgRD.mqtt_enabled );
-  prTextGroup( response, id++, "Client ID", "mqtt_clientid", appcfgRD.mqtt_clientid );
-  prTextGroup( response, id++, "Host", "mqtt_host", appcfgRD.mqtt_host );
-  prTextGroup( response, id++, "Port", "mqtt_port", appcfgRD.mqtt_port );
-  prCheckBoxGroup( response, id++, "Use Authentication", "mqtt_useauth", appcfgRD.mqtt_useauth );
-  prTextGroup( response, id++, "User", "mqtt_user", appcfgRD.mqtt_user );
-  prTextGroup( response, id++, "Password", "mqtt_password", appcfgRD.mqtt_password );
-  prTextGroup( response, id++, "Out Topic", "mqtt_outtopic", appcfgRD.mqtt_outtopic );
+  prCheckBoxGroup( response, id++, "Enabled", "mqtt_enabled", appcfg.mqtt_enabled );
+  prTextGroup( response, id++, "Client ID", "mqtt_clientid", appcfg.mqtt_clientid );
+  prTextGroup( response, id++, "Host", "mqtt_host", appcfg.mqtt_host );
+  prTextGroup( response, id++, "Port", "mqtt_port", appcfg.mqtt_port );
+  prCheckBoxGroup( response, id++, "Use Authentication", "mqtt_useauth", appcfg.mqtt_useauth );
+  prTextGroup( response, id++, "User", "mqtt_user", appcfg.mqtt_user );
+  prTextGroup( response, id++, "Password", "mqtt_password", appcfg.mqtt_password );
+  prTextGroup( response, id++, "Out Topic", "mqtt_outtopic", appcfg.mqtt_outtopic );
 
   // Syslog
   prLegend( response, "Syslog");
-  prCheckBoxGroup( response, id++, "Enabled", "syslog_enabled", appcfgRD.syslog_enabled );
-  prTextGroup( response, id++, "Host", "syslog_host", appcfgRD.syslog_host );
-  prTextGroup( response, id++, "Port (TCP)", "syslog_port", appcfgRD.syslog_port );
-  prTextGroup( response, id++, "App Name", "syslog_app_name", appcfgRD.syslog_app_name );
+  prCheckBoxGroup( response, id++, "Enabled", "syslog_enabled", appcfg.syslog_enabled );
+  prTextGroup( response, id++, "Host", "syslog_host", appcfg.syslog_host );
+  prTextGroup( response, id++, "Port (TCP)", "syslog_port", appcfg.syslog_port );
+  prTextGroup( response, id++, "App Name", "syslog_app_name", appcfg.syslog_app_name );
 
   response->println("<p><input class='pure-button pure-button-primary' type='submit' value='Save Configuration'></p>");
   response->println("</fieldset></form>");
@@ -226,7 +226,7 @@ bool paramBool( AsyncWebServerRequest *request, const char* paramName )
 
 void handleSavePage( AsyncWebServerRequest *request )
 {
-  if(!request->authenticate("admin", appcfgRD.admin_password))
+  if(!request->authenticate("admin", appcfg.admin_password))
   {
     return request->requestAuthentication();
   }
@@ -316,7 +316,7 @@ void handleRootPage( AsyncWebServerRequest *request )
 
 
   char titleBuffer[100];
-  sprintf( titleBuffer, APP_NAME " - %s", appcfgRD.ota_hostname );
+  sprintf( titleBuffer, APP_NAME " - %s", appcfg.ota_hostname );
 
   AsyncResponseStream *response = request->beginResponseStream("text/html");
   response->printf( TEMPLATE_HEADER, titleBuffer );
@@ -399,9 +399,9 @@ void WebHandler::setup()
         "<p>Time: " __TIME__ "</p>");
 
     prLegend( response, "Services");
-    response->printf( "<p>OpenHAB Callback Enabled: %s</p>", (appcfgRD.ohab_enabled) ? "true" : "false" );
-    response->printf( "<p>MQTT Enabled: %s</p>", (appcfgRD.mqtt_enabled) ? "true" : "false" );
-    response->printf( "<p>Syslog Enabled: %s</p>", (appcfgRD.syslog_enabled) ? "true" : "false" );
+    response->printf( "<p>OpenHAB Callback Enabled: %s</p>", (appcfg.ohab_enabled) ? "true" : "false" );
+    response->printf( "<p>MQTT Enabled: %s</p>", (appcfg.mqtt_enabled) ? "true" : "false" );
+    response->printf( "<p>Syslog Enabled: %s</p>", (appcfg.syslog_enabled) ? "true" : "false" );
 
     response->print("</form>");
     response->print( TEMPLATE_FOOTER );

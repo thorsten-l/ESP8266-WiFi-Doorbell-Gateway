@@ -9,8 +9,8 @@ void OtaHandler::setup()
 {
   LOG0("OTA Setup started...\n");
 
-  ArduinoOTA.setHostname(appcfgRD.ota_hostname);
-  ArduinoOTA.setPassword(appcfgRD.ota_password);
+  ArduinoOTA.setHostname(appcfg.ota_hostname);
+  ArduinoOTA.setPassword(appcfg.ota_password);
 
   ArduinoOTA.onStart([]() {
     Serial.println("\nOTA Start");

@@ -3,50 +3,50 @@
 #include <FS.h>
 
 App app;
-AppConfig appcfgRD;
+AppConfig appcfg;
 AppConfig appcfgWR;
 
 App::App()
 {
   initialized = true;
 
-  strncpy(appcfgRD.wifi_ssid, DEFAULT_WIFI_SSID, 63);
-  strncpy(appcfgRD.wifi_password, DEFAULT_WIFI_PASSWORD, 63);
-  appcfgRD.wifi_mode = DEFAULT_WIFI_MODE;
+  strncpy(appcfg.wifi_ssid, DEFAULT_WIFI_SSID, 63);
+  strncpy(appcfg.wifi_password, DEFAULT_WIFI_PASSWORD, 63);
+  appcfg.wifi_mode = DEFAULT_WIFI_MODE;
 
-  appcfgRD.net_mode = DEFAULT_NET_MODE;
-  strncpy(appcfgRD.net_host, DEFAULT_NET_HOST, 63);
-  strncpy(appcfgRD.net_mask, DEFAULT_NET_MASK, 63);
-  strncpy(appcfgRD.net_gateway, DEFAULT_NET_GATEWAY, 63);
-  strncpy(appcfgRD.net_dns, DEFAULT_NET_DNS, 63);
+  appcfg.net_mode = DEFAULT_NET_MODE;
+  strncpy(appcfg.net_host, DEFAULT_NET_HOST, 63);
+  strncpy(appcfg.net_mask, DEFAULT_NET_MASK, 63);
+  strncpy(appcfg.net_gateway, DEFAULT_NET_GATEWAY, 63);
+  strncpy(appcfg.net_dns, DEFAULT_NET_DNS, 63);
 
-  strncpy(appcfgRD.ota_hostname, DEFAULT_OTA_HOSTNAME, 63);
-  strncpy(appcfgRD.ota_password, DEFAULT_OTA_PASSWORD, 63);
+  strncpy(appcfg.ota_hostname, DEFAULT_OTA_HOSTNAME, 63);
+  strncpy(appcfg.ota_password, DEFAULT_OTA_PASSWORD, 63);
 
-  strncpy(appcfgRD.admin_password, DEFAULT_ADMIN_PASSWORD, 63);
+  strncpy(appcfg.admin_password, DEFAULT_ADMIN_PASSWORD, 63);
 
-  appcfgRD.ohab_enabled = DEFAULT_OHAB_ENABLED;
-  appcfgRD.ohab_version = DEFAULT_OHAB_VERSION;
-  strncpy(appcfgRD.ohab_host, DEFAULT_OHAB_HOST, 63);
-  appcfgRD.ohab_port = DEFAULT_OHAB_PORT;
-  appcfgRD.ohab_useauth = DEFAULT_OHAB_USEAUTH;
-  strncpy(appcfgRD.ohab_user, DEFAULT_OHAB_USER, 63);
-  strncpy(appcfgRD.ohab_password, DEFAULT_OHAB_PASSWORD, 63);
-  strncpy(appcfgRD.ohab_itemname, DEFAULT_OHAB_ITEMNAME, 63);
+  appcfg.ohab_enabled = DEFAULT_OHAB_ENABLED;
+  appcfg.ohab_version = DEFAULT_OHAB_VERSION;
+  strncpy(appcfg.ohab_host, DEFAULT_OHAB_HOST, 63);
+  appcfg.ohab_port = DEFAULT_OHAB_PORT;
+  appcfg.ohab_useauth = DEFAULT_OHAB_USEAUTH;
+  strncpy(appcfg.ohab_user, DEFAULT_OHAB_USER, 63);
+  strncpy(appcfg.ohab_password, DEFAULT_OHAB_PASSWORD, 63);
+  strncpy(appcfg.ohab_itemname, DEFAULT_OHAB_ITEMNAME, 63);
 
-  appcfgRD.mqtt_enabled = DEFAULT_MQTT_ENABLED;
-  strncpy(appcfgRD.mqtt_clientid, DEFAULT_MQTT_CLIENTID, 63);
-  strncpy(appcfgRD.mqtt_host, DEFAULT_MQTT_HOST, 63);
-  appcfgRD.mqtt_port = DEFAULT_MQTT_PORT;
-  appcfgRD.mqtt_useauth = DEFAULT_MQTT_USEAUTH;
-  strncpy(appcfgRD.mqtt_user, DEFAULT_MQTT_USER, 63);
-  strncpy(appcfgRD.mqtt_password, DEFAULT_MQTT_PASSWORD, 63);
-  strncpy(appcfgRD.mqtt_outtopic, DEFAULT_MQTT_OUTTOPIC, 63);
+  appcfg.mqtt_enabled = DEFAULT_MQTT_ENABLED;
+  strncpy(appcfg.mqtt_clientid, DEFAULT_MQTT_CLIENTID, 63);
+  strncpy(appcfg.mqtt_host, DEFAULT_MQTT_HOST, 63);
+  appcfg.mqtt_port = DEFAULT_MQTT_PORT;
+  appcfg.mqtt_useauth = DEFAULT_MQTT_USEAUTH;
+  strncpy(appcfg.mqtt_user, DEFAULT_MQTT_USER, 63);
+  strncpy(appcfg.mqtt_password, DEFAULT_MQTT_PASSWORD, 63);
+  strncpy(appcfg.mqtt_outtopic, DEFAULT_MQTT_OUTTOPIC, 63);
 
-  appcfgRD.syslog_enabled = DEFAULT_SYSLOG_ENABLED;
-  strncpy(appcfgRD.syslog_host, DEFAULT_SYSLOG_HOST, 63);
-  appcfgRD.syslog_port = DEFAULT_SYSLOG_PORT;
-  strncpy(appcfgRD.syslog_app_name, DEFAULT_SYSLOG_APP_NAME, 63);
+  appcfg.syslog_enabled = DEFAULT_SYSLOG_ENABLED;
+  strncpy(appcfg.syslog_host, DEFAULT_SYSLOG_HOST, 63);
+  appcfg.syslog_port = DEFAULT_SYSLOG_PORT;
+  strncpy(appcfg.syslog_app_name, DEFAULT_SYSLOG_APP_NAME, 63);
 }
 
 void App::restartSystem()
@@ -85,7 +85,7 @@ void App::setup()
   Serial.println("\n\n");
   Serial.println(F(APP_NAME ", Version " APP_VERSION ", by " APP_AUTHOR));
   Serial.println("Build date: " __DATE__ " " __TIME__);
-  Serial.printf("appcfg file size: %d bytes\n\n", sizeof(appcfgRD));
+  Serial.printf("appcfg file size: %d bytes\n\n", sizeof(appcfg));
 
   if (digitalRead(SETUP_BUTTON) == false)
   {
@@ -119,7 +119,7 @@ void App::setup()
 
   ESP.eraseConfig();
   loadConfig();
-  memcpy( &appcfgWR, &appcfgRD, sizeof(appcfgRD));
+  memcpy( &appcfgWR, &appcfg, sizeof(appcfg));
 }
 
 void App::loadConfig()
@@ -142,13 +142,13 @@ void App::loadConfig()
       {
         LOG1("Loading appcfguration from %s file...\n", APP_CONFIG_FILE);
 
-        if (configFile.size() != sizeof(appcfgRD))
+        if (configFile.size() != sizeof(appcfg))
         {
-          Serial.printf("ERROR: %s file size not match appcfg structure %d != %d bytes.\n", APP_CONFIG_FILE, configFile.size(), sizeof(appcfgRD));
+          Serial.printf("ERROR: %s file size not match appcfg structure %d != %d bytes.\n", APP_CONFIG_FILE, configFile.size(), sizeof(appcfg));
         }
         else
         {
-          int bytesRead = configFile.readBytes((char *)&appcfgRD, sizeof(appcfgRD));
+          int bytesRead = configFile.readBytes((char *)&appcfg, sizeof(appcfg));
           LOG1("%d bytes read from appcfg file.\n", bytesRead);
           configFile.close();
         }
@@ -204,43 +204,43 @@ void App::printConfig()
   Serial.println();
   Serial.println("--- App appcfguration -----------------------------------");
   Serial.println("  Security:");
-  Serial.printf("    Admin password: %s\n", appcfgRD.admin_password);
+  Serial.printf("    Admin password: %s\n", appcfg.admin_password);
   Serial.println("\n  WiFi:");
-  Serial.printf("    SSID: %s\n", appcfgRD.wifi_ssid);
-  Serial.printf("    Password: %s\n", appcfgRD.wifi_password);
-  Serial.printf("    Mode: %s\n", (appcfgRD.wifi_mode == 1) ? "Station" : "Access Point");
+  Serial.printf("    SSID: %s\n", appcfg.wifi_ssid);
+  Serial.printf("    Password: %s\n", appcfg.wifi_password);
+  Serial.printf("    Mode: %s\n", (appcfg.wifi_mode == 1) ? "Station" : "Access Point");
   Serial.println("\n  Network:");
-  Serial.printf("    Mode: %s\n", ( appcfgRD.net_mode == NET_MODE_DHCP ) ? "DHCP" : "Static");
-  Serial.printf("    host address: %s\n", appcfgRD.net_host);
-  Serial.printf("    gateway: %s\n", appcfgRD.net_gateway);
-  Serial.printf("    netmask: %s\n", appcfgRD.net_mask);
-  Serial.printf("    dns server: %s\n", appcfgRD.net_dns);
+  Serial.printf("    Mode: %s\n", ( appcfg.net_mode == NET_MODE_DHCP ) ? "DHCP" : "Static");
+  Serial.printf("    host address: %s\n", appcfg.net_host);
+  Serial.printf("    gateway: %s\n", appcfg.net_gateway);
+  Serial.printf("    netmask: %s\n", appcfg.net_mask);
+  Serial.printf("    dns server: %s\n", appcfg.net_dns);
   Serial.println("\n  OTA:");
-  Serial.printf("    Hostname: %s\n", appcfgRD.ota_hostname);
-  Serial.printf("    Password: %s\n", appcfgRD.ota_password);
+  Serial.printf("    Hostname: %s\n", appcfg.ota_hostname);
+  Serial.printf("    Password: %s\n", appcfg.ota_password);
   Serial.println("\n  OpenHAB:");
-  Serial.printf("    Enabled: %s\n", (appcfgRD.ohab_enabled ? "true" : "false"));
-  Serial.printf("    Version: %d\n", appcfgRD.ohab_version);
-  Serial.printf("    Host: %s\n", appcfgRD.ohab_host);
-  Serial.printf("    Port: %d\n", appcfgRD.ohab_port);
-  Serial.printf("    Use Auth: %s\n", (appcfgRD.ohab_useauth ? "true" : "false"));
-  Serial.printf("    User: %s\n", appcfgRD.ohab_user);
-  Serial.printf("    Password: %s\n", appcfgRD.ohab_password);
-  Serial.printf("    Itemname: %s\n", appcfgRD.ohab_itemname);
+  Serial.printf("    Enabled: %s\n", (appcfg.ohab_enabled ? "true" : "false"));
+  Serial.printf("    Version: %d\n", appcfg.ohab_version);
+  Serial.printf("    Host: %s\n", appcfg.ohab_host);
+  Serial.printf("    Port: %d\n", appcfg.ohab_port);
+  Serial.printf("    Use Auth: %s\n", (appcfg.ohab_useauth ? "true" : "false"));
+  Serial.printf("    User: %s\n", appcfg.ohab_user);
+  Serial.printf("    Password: %s\n", appcfg.ohab_password);
+  Serial.printf("    Itemname: %s\n", appcfg.ohab_itemname);
   Serial.println("\n  MQTT:");
-  Serial.printf("    Enabled: %s\n", (appcfgRD.mqtt_enabled ? "true" : "false"));
-  Serial.printf("    Client ID: %s\n", appcfgRD.mqtt_clientid);
-  Serial.printf("    Host: %s\n", appcfgRD.mqtt_host);
-  Serial.printf("    Port: %d\n", appcfgRD.mqtt_port);
-  Serial.printf("    Use Auth: %s\n", (appcfgRD.mqtt_useauth ? "true" : "false"));
-  Serial.printf("    User: %s\n", appcfgRD.mqtt_user);
-  Serial.printf("    Password: %s\n", appcfgRD.mqtt_password);
-  Serial.printf("    Out Topic: %s\n", appcfgRD.mqtt_outtopic);
+  Serial.printf("    Enabled: %s\n", (appcfg.mqtt_enabled ? "true" : "false"));
+  Serial.printf("    Client ID: %s\n", appcfg.mqtt_clientid);
+  Serial.printf("    Host: %s\n", appcfg.mqtt_host);
+  Serial.printf("    Port: %d\n", appcfg.mqtt_port);
+  Serial.printf("    Use Auth: %s\n", (appcfg.mqtt_useauth ? "true" : "false"));
+  Serial.printf("    User: %s\n", appcfg.mqtt_user);
+  Serial.printf("    Password: %s\n", appcfg.mqtt_password);
+  Serial.printf("    Out Topic: %s\n", appcfg.mqtt_outtopic);
   Serial.println("\n  Syslog:");
-  Serial.printf("    Enabled: %s\n", (appcfgRD.syslog_enabled ? "true" : "false"));
-  Serial.printf("    Host: %s\n", appcfgRD.syslog_host);
-  Serial.printf("    Port: %d\n", appcfgRD.syslog_port);
-  Serial.printf("    App Name: %s\n", appcfgRD.syslog_app_name);
+  Serial.printf("    Enabled: %s\n", (appcfg.syslog_enabled ? "true" : "false"));
+  Serial.printf("    Host: %s\n", appcfg.syslog_host);
+  Serial.printf("    Port: %d\n", appcfg.syslog_port);
+  Serial.printf("    App Name: %s\n", appcfg.syslog_app_name);
   Serial.println("---------------------------------------------------------");
   Serial.println();
 }

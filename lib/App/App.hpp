@@ -82,7 +82,7 @@ public:
 };
 
 extern App app;
-extern AppConfig appcfgRD;
+extern AppConfig appcfg;
 extern AppConfig appcfgWR;
 
 #endif
