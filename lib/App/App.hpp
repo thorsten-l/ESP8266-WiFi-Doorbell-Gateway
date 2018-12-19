@@ -8,7 +8,7 @@
 #define LOG1(format, x) Serial.printf("(%ld) " format, millis(), x)
 
 #define APP_NAME "WiFi Doorbell Gateway"
-#define APP_VERSION "0.3.1"
+#define APP_VERSION "1.0.0"
 #define APP_AUTHOR "Dr. Thorsten Ludewig <t.ludewig@gmail.com>"
 #define APP_CONFIG_FILE "/config.bin"
 
