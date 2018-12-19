@@ -28,8 +28,6 @@ After a firmware reset the following values are set.
 | OpenHAB Use Authentication | false | |
 | OpenHAB User | user |  |
 | OpenHAB Password | password | |
-| Alexa enabled | **false** |  |
-| Alexa devicename | Socket | Devicename for Alexa HA |
 | MQTT Enabled | **false** |  |
 | MQTT ClientId | DoorbellGateway1 |  |
 | MQTT Host | 192.168.1.1 | |
