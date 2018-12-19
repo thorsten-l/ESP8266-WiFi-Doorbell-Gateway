@@ -1,12 +1,12 @@
-#include <Arduino.h>
 #include <App.hpp>
+#include <Arduino.h>
 #include <ESP8266WiFi.h>
-#include <WifiHandler.hpp>
+#include <MqttHandler.hpp>
+#include <OpenHabHandler.hpp>
 #include <OtaHandler.hpp>
 #include <Syslog.hpp>
 #include <WebHandler.hpp>
-#include <OpenHabHandler.hpp>
-#include <MqttHandler.hpp>
+#include <WifiHandler.hpp>
 
 time_t lifeTicker;
 time_t maxLoopTime;
@@ -20,7 +20,6 @@ volatile bool buttonPressed;
 volatile bool showPressingDuration;
 
 bool firstRun;
-bool wifiAlreadyConnected;
 
 void ringButtonPressed()
 {
@@ -46,7 +45,6 @@ void setup()
 {
   buttonPressed0 = false;
   buttonPressed = false;
-  wifiAlreadyConnected = false;
   showPressingDuration = false;
   firstRun = true;
   app.setup();
@@ -54,7 +52,8 @@ void setup()
   app.printConfig();
   wifiHandler.setup();
 
-  attachInterrupt(digitalPinToInterrupt(RING_BUTTON), &ringButtonPressed, FALLING);
+  attachInterrupt(digitalPinToInterrupt(RING_BUTTON), &ringButtonPressed,
+                  FALLING);
 
   maxLoopTime = 0l;
   lifeTicker = lastLoopTimestamp = millis();
@@ -73,10 +72,11 @@ void loop()
     syslog.logInfo("Ringbutton pressed to short");
   }
 
-  if ( showPressingDuration && (thisLoopTimestamp - debounceTimestamp) >= 1000)
+  if (showPressingDuration && (thisLoopTimestamp - debounceTimestamp) >= 1000)
   {
     showPressingDuration = false;
-    syslog.logInfo("button pressing time in ms:", (int)(debounceTimestamp-buttonPressed0Timestamp));
+    syslog.logInfo("button pressing time in ms:",
+                   (int)(debounceTimestamp - buttonPressed0Timestamp));
   }
 
   if (buttonPressed)
@@ -99,7 +99,7 @@ void loop()
 
   if (wifiHandler.handle(thisLoopTimestamp))
   {
-    otaHandler.handle(); 
+    otaHandler.handle();
     webHandler.handle();
     mqttHandler.handle();
 
@@ -109,20 +109,6 @@ void loop()
       syslog.logInfo("Build date: " __DATE__ " " __TIME__);
       firstRun = false;
     }
-
-    if ( !wifiAlreadyConnected )
-    {
-      syslog.logInfo("WiFi connected");
-      syslog.logInfo("  ip addr:", WiFi.localIP().toString().c_str());
-      syslog.logInfo("  netmask:", WiFi.subnetMask().toString().c_str());
-      syslog.logInfo("  gateway:", WiFi.gatewayIP().toString().c_str());
-      syslog.logInfo("  dns server:", WiFi.dnsIP().toString().c_str());
-      wifiAlreadyConnected = true;
-    }
-  }
-  else
-  {
-    wifiAlreadyConnected = false;
   }
 
   app.handle();

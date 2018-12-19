@@ -3,6 +3,7 @@
 #include <DefaultAppConfig.h>
 #include <ESP8266WiFi.h>
 #include <ESP8266mDNS.h>
+#include <Syslog.hpp>
 
 WifiHandler wifiHandler;
 
@@ -21,7 +22,7 @@ static void wifiInitStationMode()
 {
   WiFi.disconnect();
   ESP.eraseConfig();
-  delay( 500 );
+  delay(500);
 
   LOG0("Starting Wifi in Station Mode");
   if (appcfg.net_mode == NET_MODE_STATIC)
@@ -124,16 +125,15 @@ const bool WifiHandler::handle(time_t timestamp)
 
         if (appcfg.net_mode == NET_MODE_DHCP)
         {
-          Serial.println( "copy wifi config from dhcp response" );
+          Serial.println("copy wifi config from dhcp response");
           strncpy(appcfg.net_host, WiFi.localIP().toString().c_str(), 63);
-          strncpy(appcfg.net_gateway, WiFi.gatewayIP().toString().c_str(),
-                  63);
+          strncpy(appcfg.net_gateway, WiFi.gatewayIP().toString().c_str(), 63);
           strncpy(appcfg.net_mask, WiFi.subnetMask().toString().c_str(), 63);
           strncpy(appcfg.net_dns, WiFi.dnsIP().toString().c_str(), 63);
         }
         else
         {
-          Serial.println( "setting dns server" );
+          Serial.println("setting dns server");
           IPAddress dns;
           dns.fromString(appcfg.net_dns);
           WiFi.dnsIP(dns);
@@ -143,6 +143,15 @@ const bool WifiHandler::handle(time_t timestamp)
         Serial.printf(" - gateway: %s\n", appcfg.net_gateway);
         Serial.printf(" - mask: %s\n", appcfg.net_mask);
         Serial.printf(" - dns server: %s\n", appcfg.net_dns);
+
+        if (appcfg.syslog_enabled)
+        {
+          syslog.logInfo("WiFi connected");
+          syslog.logInfo("  host ip addr:", appcfg.net_host);
+          syslog.logInfo("  netmask:", appcfg.net_mask);
+          syslog.logInfo("  gateway:", appcfg.net_gateway);
+          syslog.logInfo("  dns server:", appcfg.net_dns);
+        }
 
         Serial.println();
         digitalWrite(WIFI_LED, LOW);
