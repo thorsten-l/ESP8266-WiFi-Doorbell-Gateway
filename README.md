@@ -41,6 +41,9 @@ After a firmware reset the following values are set.
 | Syslog Port (TCP) | 80 | |
 | Syslog App Name | gateway-doorbell |  |
 
+## Documentation
+- Find screenshots of the web-pages [here](https://github.com/thorsten-l/ESP8266-WiFi-Doorbell-Gateway/tree/master/docs)
+
 ## Hardware
 - [WEMOS D1 mini](https://wiki.wemos.cc/products:d1:d1_mini)
 
