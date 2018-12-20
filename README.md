@@ -1,6 +1,9 @@
 # ESP8266-WiFi-Doorbell-Gateway
 A gateway for your doorbell button ;-)
 
+## Precompiled Firmware
+Find the precompiled firmware in the [firmware](https://github.com/thorsten-l/ESP8266-WiFi-Doorbell-Gateway/tree/master/firmware) directory.
+
 ## Compile
 This is a [PlatformIO](https://platformio.org/) project.
 
