@@ -2,6 +2,11 @@
 .pio
 .pioenvs
 .piolibdeps
+.clang_complete
+.gcc-flags.json
+
+# Private directory
+private/
 
 # Visual Studio Code
 .vscode/.browse.c_cpp.db*
