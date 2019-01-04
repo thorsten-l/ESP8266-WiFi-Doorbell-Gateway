@@ -1,6 +1,12 @@
 # ESP8266-WiFi-Doorbell-Gateway
 A gateway for your doorbell button ;-)
 
+## Screenshots
+Find screenshots of the web interface in the [docs](https://github.com/thorsten-l/ESP8266-WiFi-Doorbell-Gateway/tree/master/docs) directory.
+
+## Schematic diagrams and PCB files
+Find schematic diagrams and pcb files in the [kicad](https://github.com/thorsten-l/ESP8266-WiFi-Doorbell-Gateway/tree/master/kicad) directory.
+
 ## Precompiled Firmware
 Find the precompiled firmware in the [firmware](https://github.com/thorsten-l/ESP8266-WiFi-Doorbell-Gateway/tree/master/firmware) directory.
 
